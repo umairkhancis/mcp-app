@@ -8,7 +8,13 @@ from .config import settings
 
 from .mcp_server import mcp
 
+from fastapi.responses import JSONResponse
+
+import json
+
 # Create a combined lifespan to manage the MCP session manager
+
+
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
     async with mcp.session_manager.run():
@@ -25,10 +31,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Create and mount the MCP server with authentication
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy", "message": "Application is running"}
+
+# OAuth Protected Resource Metadata endpoint - Required for MCP client discovery
+# Copy the actual authorization server URL and metadata from your Scalekit dashboard.
+# The values shown here are examples - replace with your actual configuration.
+@app.get('/.well-known/oauth-protected-resource')
+async def get_oauth_protected_resource():
+    response = json.loads(settings.OAUTH_PROTECTED_RESOURCE_METADATA_JSON)
+    return response
+
+# Create and mount the MCP server
 mcp_server = mcp.streamable_http_app()
-# app.add_middleware(AuthMiddleware)
 app.mount("/", mcp_server)
+
 
 def main():
     """Main entry point for the MCP server."""

@@ -1,0 +1,26 @@
+
+curl -i -X POST http://127.0.0.1:5000/mcp \
+  -H "Origin: http://localhost:6274" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+      "protocolVersion": "2024-11-05",
+      "clientInfo": { "name": "curl", "version": "0.1" },
+      "capabilities": {}
+    }
+  }'
+
+curl -i -X POST http://127.0.0.1:5000/mcp \
+  -H "Origin: http://localhost:6274" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "mcp-session-id: <PASTE_HERE>" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "ping"
+  }'
