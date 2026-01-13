@@ -182,6 +182,20 @@ uvicorn shopping_cart_python.main:app --port 8000
 
 You can reuse the same virtual environment for all Python servers—install the dependencies once and run whichever entry point you need.
 
+## Running in Docker
+
+Build the Docker image:
+```
+cd /Users/umairahmed.khan/workspace/talabat-workspace/ai/mcp_app/webdocker build -t mcp-web:latest .
+```
+
+Run the container:
+```
+docker run -p 4444:4444 mcp-web:latest
+```
+
+The web assets will be available at http://localhost:4444 and can be consumed by the MCP servers as described in your project documentation.
+
 ## Testing in ChatGPT
 
 To add these apps to ChatGPT, enable [developer mode](https://platform.openai.com/docs/guides/developer-mode), and add your apps in Settings > Connectors.
