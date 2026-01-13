@@ -5,6 +5,7 @@ load_dotenv()
 
 class Config:
     # Server Port
+    HOST: str = os.environ.get("HOST", "localhost")
     PORT: int = int(os.environ.get("PORT", 5000))
 
     # Tavily API Key
@@ -23,6 +24,8 @@ class Config:
     AUTH_PROVIDER_AUDIENCE: str = os.environ.get("AUTH_PROVIDER_AUDIENCE", "")
 
     def __post_init__(self):
+        if not self.HOST:
+            raise ValueError("HOST environment variable not set")
         if not self.PORT:
             raise ValueError("PORT environment variable not set")
         if not self.TAVILY_API_KEY:

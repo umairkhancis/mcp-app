@@ -208,3 +208,8 @@ __marimo__/
 
 # Assets
 assets/
+
+# env
+.env
+.env.prod
+.env.dev
