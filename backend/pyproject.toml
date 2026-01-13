@@ -1,0 +1,23 @@
+[project]
+name = "ideate-backend-server"
+version = "0.1.0"
+description = "Minimal Flask + SQLite API for capturing, archiving, and annotating ideas (a lightweight second brain)."
+readme = "README.md"
+requires-python = ">=3.13"
+license = { file = "LICENSE" }
+authors = [
+  { name = "umairkhancis" }
+]
+
+dependencies = [
+  "Flask>=2.3,<3.0",
+  "Flask-RESTful>=0.3.10,<0.4.0",
+  "flask-cors>=4.0.0,<5.0.0",
+  "flasgger>=0.9.7,<0.10.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/umairkhancis/ideate"
+Repository = "https://github.com/umairkhancis/ideate"
+Issues = "https://github.com/umairkhancis/ideate/issues"
+Documentation = "https://github.com/umairkhancis/ideate#readme"

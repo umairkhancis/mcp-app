@@ -27,3 +27,4 @@ def web_search(query: str) -> List[Dict]:
         return response["results"]
     except Exception as e:
         return {"error": str(e)}
+
