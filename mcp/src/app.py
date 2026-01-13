@@ -8,7 +8,7 @@ from .config import config
 
 from .auth import AuthMiddleware
 
-from .ideate_mcp_server import ideate_mcp
+from .pizzaz_mcp_server import pizzaz_mcp
 
 from fastapi.responses import JSONResponse
 
@@ -17,7 +17,7 @@ import json
 # Create a combined lifespan to manage the MCP session manager
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with ideate_mcp.session_manager.run():
+    async with pizzaz_mcp.session_manager.run():
         yield
 
 app = FastAPI(lifespan=lifespan)
@@ -47,7 +47,7 @@ async def get_oauth_protected_resource():
     return response
 
 # Create and mount the MCP server
-mcp_server = ideate_mcp.streamable_http_app()
+mcp_server = pizzaz_mcp.streamable_http_app()
 app.mount("/", mcp_server)
 
 def main():
