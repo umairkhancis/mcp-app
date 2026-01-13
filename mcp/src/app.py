@@ -8,7 +8,7 @@ from .config import config
 
 from .auth import AuthMiddleware
 
-from .talabat_mcp_server import talabat_mcp
+from .talabat_mcp_server import talabat_mcp as mcp_app
 
 from fastapi.responses import JSONResponse
 
@@ -17,7 +17,7 @@ import json
 # Create a combined lifespan to manage the MCP session manager
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with talabat_mcp.session_manager.run():
+    async with mcp_app.session_manager.run():
         yield
 
 app = FastAPI(lifespan=lifespan)
@@ -47,7 +47,7 @@ async def get_oauth_protected_resource():
     return response
 
 # Create and mount the MCP server
-mcp_server = talabat_mcp.streamable_http_app()
+mcp_server = mcp_app.streamable_http_app()
 app.mount("/", mcp_server)
 
 def main():
