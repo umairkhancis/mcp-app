@@ -4,7 +4,9 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import settings
+from .config import config
+
+from .auth import AuthMiddleware
 
 from .mcp_server import mcp
 
@@ -13,8 +15,6 @@ from fastapi.responses import JSONResponse
 import json
 
 # Create a combined lifespan to manage the MCP session manager
-
-
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
     async with mcp.session_manager.run():
@@ -31,6 +31,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Add Authentication middleware
+app.add_middleware(AuthMiddleware)
 
 @app.get("/health")
 async def health():
@@ -41,18 +43,16 @@ async def health():
 # The values shown here are examples - replace with your actual configuration.
 @app.get('/.well-known/oauth-protected-resource')
 async def get_oauth_protected_resource():
-    response = json.loads(settings.OAUTH_PROTECTED_RESOURCE_METADATA_JSON)
+    response = json.loads(config.OAUTH_PROTECTED_RESOURCE_METADATA_JSON)
     return response
 
 # Create and mount the MCP server
 mcp_server = mcp.streamable_http_app()
 app.mount("/", mcp_server)
 
-
 def main():
     """Main entry point for the MCP server."""
-    uvicorn.run(app, host="localhost", port=settings.PORT, log_level="debug")
-
+    uvicorn.run(app, host="localhost", port=config.PORT, log_level="debug")
 
 if __name__ == "__main__":
     main()

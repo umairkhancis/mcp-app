@@ -2,13 +2,13 @@ from mcp.server.fastmcp import FastMCP
 from tavily import TavilyClient
 from typing import Dict, List
 
-from .config import settings
+from .config import config
 
 # Create an MCP server
 mcp = FastMCP("web-search")
 
 # Initialize Tavily client
-tavily_client = TavilyClient(settings.TAVILY_API_KEY)
+tavily_client = TavilyClient(config.TAVILY_API_KEY)
 
 # Add a tool that uses Tavily
 @mcp.tool()
