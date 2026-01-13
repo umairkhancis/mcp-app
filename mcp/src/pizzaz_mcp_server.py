@@ -34,7 +34,7 @@ class PizzazWidget:
 
 
 # TODO: Change this to the correct path
-ASSETS_DIR = Path(__file__).resolve().parent.parent.parent / "web" / "assets"
+ASSETS_DIR = Path(__file__).resolve().parent.parent / "assets"
 
 @lru_cache(maxsize=None)
 def _load_widget_html(component_name: str) -> str:
