@@ -32,7 +32,7 @@ app.add_middleware(
 )
 
 # Add Authentication middleware
-# app.add_middleware(AuthMiddleware)
+app.add_middleware(AuthMiddleware)
 
 @app.get("/health")
 async def health():

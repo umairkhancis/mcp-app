@@ -1,21 +1,21 @@
-import React, {useState, Suspense} from "react";
+import React, { Suspense, useState } from "react";
+import { createRoot } from "react-dom/client";
 import "../index.css";
-import {createRoot} from "react-dom/client";
-import {useOpenAiGlobal} from "../use-openai-global";
-import {useDisplayMode} from "../use-display-mode";
-import {useMaxHeight} from "../use-max-height";
-import {useWidgetState} from "../use-widget-state";
+import { useDisplayMode } from "../use-display-mode";
+import { useMaxHeight } from "../use-max-height";
+import { useOpenAiGlobal } from "../use-openai-global";
+import { useWidgetState } from "../use-widget-state";
 
 import {
-    Store,
-    Star,
-    Clock,
     ChevronRight,
+    Clock,
     Filter,
-    SortAsc,
-    SortDesc,
     Heart,
     MoreHorizontal,
+    SortAsc,
+    SortDesc,
+    Star,
+    Store,
 } from "lucide-react";
 
 // Vendors List Widget Types
@@ -23,9 +23,9 @@ export interface CuisineData {
     id: number;
     name: string;
     slug: string;
-  }
-  
-  export interface VendorData {
+}
+
+export interface VendorData {
     id: number;
     name: string;
     business_name: string;
@@ -39,21 +39,21 @@ export interface CuisineData {
     cover_image: string;
     latitude: string;
     longitude: string;
-  }
-  
-  export interface VendorsToolOutput {
+}
+
+export interface VendorsToolOutput {
     vendors: VendorData[];
     total_vendors: number;
     base_url: string;
-  }
-  
-  export interface VendorsWidgetState {
+}
+
+export interface VendorsWidgetState {
     favorites: number[];
     sortBy: "rating" | "name" | "delivery_time";
     sortOrder: "asc" | "desc";
     viewMode: "list" | "detail";
     selectedVendor?: number;
-  }
+}
 
 interface VendorCardProps {
     vendor: VendorData;
@@ -65,13 +65,13 @@ interface VendorCardProps {
 }
 
 function VendorCard({
-                        vendor,
-                        isFavorite,
-                        onToggleFavorite,
-                        onClick,
-                        baseImageUrl,
-                        theme,
-                    }: VendorCardProps) {
+    vendor,
+    isFavorite,
+    onToggleFavorite,
+    onClick,
+    baseImageUrl,
+    theme,
+}: VendorCardProps) {
     const isDark = theme === "dark";
     const handleCardClick = () => {
         onClick(vendor.id);
@@ -139,13 +139,12 @@ function VendorCard({
                                 onClick={handleFavoriteClick}
                                 className={`
                   p-1 rounded-full transition-colors
-                  ${
-                                    isFavorite
+                  ${isFavorite
                                         ? "text-red-500 hover:text-red-600"
                                         : isDark
                                             ? "text-white/40 hover:text-white/60"
                                             : "text-black/40 hover:text-black/60"
-                                }
+                                    }
                 `}
                             >
                                 <Heart
@@ -164,14 +163,14 @@ function VendorCard({
 
                     <div className="flex items-center gap-3 mt-2 flex-wrap">
                         <div className="flex items-center gap-1">
-              <span
-                  className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-xs rounded-full ${getRatingColor(
-                      vendor.rating
-                  )}`}
-              >
-                <Star className="w-3 h-3 text-white fill-white"/>
-                <span className="text-white font-medium">{vendor.rating}</span>
-              </span>
+                            <span
+                                className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-xs rounded-full ${getRatingColor(
+                                    vendor.rating
+                                )}`}
+                            >
+                                <Star className="w-3 h-3 text-white fill-white" />
+                                <span className="text-white font-medium">{vendor.rating}</span>
+                            </span>
                         </div>
 
                         <div
@@ -180,7 +179,7 @@ function VendorCard({
               ${isDark ? "text-white/50" : "text-black/50"}
             `}
                         >
-                            <Clock className="w-3 h-3"/>
+                            <Clock className="w-3 h-3" />
                             <span>{vendor.time_estimation}</span>
                         </div>
 
@@ -275,7 +274,7 @@ function VendorsListApp() {
             ? favorites.filter((id) => id !== vendorId)
             : [...favorites, vendorId];
 
-        setWidgetState((prev) => ({...prev, favorites: newFavorites}));
+        setWidgetState((prev) => ({ ...prev, favorites: newFavorites }));
     };
 
     const handleVendorClick = (vendorId: number) => {
@@ -288,9 +287,8 @@ function VendorsListApp() {
         // Send follow-up message
         if (window.openai) {
             window.openai.sendFollowUpMessage({
-                prompt: `Show me the menu for ${
-                    vendors.find((v) => v.id === vendorId)?.name
-                }`,
+                prompt: `Show me the menu for ${vendors.find((v) => v.id === vendorId)?.name
+                    }`,
             });
         }
     };
@@ -310,7 +308,7 @@ function VendorsListApp() {
 
     const handleRequestFullscreen = () => {
         if (window.openai) {
-            window.openai.requestDisplayMode({mode: "fullscreen"});
+            window.openai.requestDisplayMode({ mode: "fullscreen" });
         }
     };
 
@@ -330,7 +328,7 @@ function VendorsListApp() {
             ${isDark ? "bg-orange-600" : "bg-orange-500"}
           `}
                     >
-                        <Store className="w-8 h-8 text-white"/>
+                        <Store className="w-8 h-8 text-white" />
                     </div>
 
                     <div className="min-w-0 flex-1">
@@ -361,7 +359,7 @@ function VendorsListApp() {
                   ${isDark ? "hover:bg-white/10" : "hover:bg-black/5"}
                 `}
                             >
-                                <MoreHorizontal className="w-5 h-5"/>
+                                <MoreHorizontal className="w-5 h-5" />
                             </button>
                         )}
                     </div>
@@ -374,16 +372,15 @@ function VendorsListApp() {
                             onClick={() => setShowFilters(!showFilters)}
                             className={`
                 flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-colors
-                ${
-                                showFilters
+                ${showFilters
                                     ? "bg-orange-100 text-orange-700"
                                     : isDark
                                         ? "hover:bg-white/10 text-white/70"
                                         : "hover:bg-black/5 text-black/70"
-                            }
+                                }
               `}
                         >
-                            <Filter className="w-4 h-4"/>
+                            <Filter className="w-4 h-4" />
                             Filters
                         </button>
                     </div>
@@ -393,21 +390,20 @@ function VendorsListApp() {
                             onClick={() => handleSort("rating")}
                             className={`
                 flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-colors
-                ${
-                                widgetState?.sortBy === "rating"
+                ${widgetState?.sortBy === "rating"
                                     ? "bg-orange-100 text-orange-700"
                                     : isDark
                                         ? "hover:bg-white/10 text-white/70"
                                         : "hover:bg-black/5 text-black/70"
-                            }
+                                }
               `}
                         >
                             Rating
                             {widgetState?.sortBy === "rating" &&
                                 (widgetState.sortOrder === "desc" ? (
-                                    <SortDesc className="w-4 h-4"/>
+                                    <SortDesc className="w-4 h-4" />
                                 ) : (
-                                    <SortAsc className="w-4 h-4"/>
+                                    <SortAsc className="w-4 h-4" />
                                 ))}
                         </button>
 
@@ -415,21 +411,20 @@ function VendorsListApp() {
                             onClick={() => handleSort("delivery_time")}
                             className={`
                 flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-colors
-                ${
-                                widgetState?.sortBy === "delivery_time"
+                ${widgetState?.sortBy === "delivery_time"
                                     ? "bg-orange-100 text-orange-700"
                                     : isDark
                                         ? "hover:bg-white/10 text-white/70"
                                         : "hover:bg-black/5 text-black/70"
-                            }
+                                }
               `}
                         >
                             Delivery
                             {widgetState?.sortBy === "delivery_time" &&
                                 (widgetState.sortOrder === "desc" ? (
-                                    <SortDesc className="w-4 h-4"/>
+                                    <SortDesc className="w-4 h-4" />
                                 ) : (
-                                    <SortAsc className="w-4 h-4"/>
+                                    <SortAsc className="w-4 h-4" />
                                 ))}
                         </button>
                     </div>
@@ -465,7 +460,7 @@ function VendorsListApp() {
               ${isDark ? "text-white/60" : "text-black/60"}
             `}
                         >
-                            <Store className="w-12 h-12 mx-auto mb-4 opacity-50"/>
+                            <Store className="w-12 h-12 mx-auto mb-4 opacity-50" />
                             <p className="text-lg font-medium mb-2">No vendors found</p>
                             <p className="text-sm">Try adjusting your search location</p>
                         </div>
@@ -483,7 +478,7 @@ if (container) {
     const root = createRoot(container);
     root.render(
         <Suspense fallback={<div className="p-4 text-center">Loading vendors...</div>}>
-            <VendorsListApp/>
+            <VendorsListApp />
         </Suspense>
     );
 }
