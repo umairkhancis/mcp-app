@@ -26,6 +26,7 @@ const targets: string[] = [
   "mixed-auth-past-orders",
   "kitchen-sink-lite",
   "shopping-cart",
+  "vendors-list",
 ];
 const builtNames: string[] = [];
 

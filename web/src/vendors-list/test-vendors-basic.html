@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendors List Widget - Basic Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-header {
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .test-info {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .widget-frame {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+        #status {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .status-loading { background: #fff3cd; color: #856404; }
+        .status-success { background: #d4edda; color: #155724; }
+        .status-error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🧪 Vendors List Widget - Basic Test</h1>
+            <p>Testing UI rendering in isolation with minimal mock data</p>
+        </div>
+
+        <div class="test-info">
+            <strong>Test Setup:</strong>
+            <ul>
+                <li>✓ Mock window.openai API</li>
+                <li>✓ Minimal vendor data (2 vendors)</li>
+                <li>✓ Light theme</li>
+                <li>✓ Inline display mode</li>
+            </ul>
+        </div>
+
+        <div id="status" class="status-loading">
+            Initializing widget...
+        </div>
+
+        <div class="widget-frame">
+            <div id="vendors-list-root"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Mock minimal vendor data
+        const mockToolOutput = {
+            vendors: [
+                {
+                    id: 1,
+                    name: "Test Restaurant 1",
+                    business_name: "Test Restaurant 1, Downtown",
+                    rating: 4.5,
+                    rating_text: "Excellent",
+                    delivery_time: "Within 30 mins",
+                    time_estimation: "25-35 mins",
+                    cuisines: [
+                        { id: 1, name: "Italian", slug: "italian" },
+                        { id: 2, name: "Pizza", slug: "pizza" }
+                    ],
+                    is_talabat_pro: true,
+                    logo: "test-logo-1.jpg",
+                    cover_image: "test-cover-1.jpg",
+                    latitude: "25.2048",
+                    longitude: "55.2708"
+                },
+                {
+                    id: 2,
+                    name: "Test Restaurant 2",
+                    business_name: "Test Restaurant 2, Marina",
+                    rating: 3.8,
+                    rating_text: "Good",
+                    delivery_time: "Within 40 mins",
+                    time_estimation: "35-45 mins",
+                    cuisines: [
+                        { id: 3, name: "Chinese", slug: "chinese" },
+                        { id: 4, name: "Asian", slug: "asian" }
+                    ],
+                    is_talabat_pro: false,
+                    logo: "test-logo-2.jpg",
+                    cover_image: "test-cover-2.jpg",
+                    latitude: "25.2048",
+                    longitude: "55.2708"
+                }
+            ],
+            total_vendors: 2,
+            base_url: "https://via.placeholder.com/64/"
+        };
+
+        // Mock OpenAI global API
+        window.openai = {
+            // State
+            theme: "light",
+            userAgent: {
+                device: { type: "desktop" },
+                capabilities: { hover: true, touch: false }
+            },
+            locale: "en",
+            maxHeight: 600,
+            displayMode: "inline",
+            safeArea: {
+                insets: { top: 0, bottom: 0, left: 0, right: 0 }
+            },
+            toolInput: {},
+            toolOutput: mockToolOutput,
+            toolResponseMetadata: null,
+            widgetState: null,
+            
+            // Methods
+            setWidgetState: async (state) => {
+                console.log("setWidgetState called:", state);
+                window.openai.widgetState = state;
+            },
+            
+            callTool: async (name, args) => {
+                console.log("callTool called:", name, args);
+                return { result: "success" };
+            },
+            
+            sendFollowUpMessage: async (args) => {
+                console.log("sendFollowUpMessage called:", args);
+            },
+            
+            openExternal: (payload) => {
+                console.log("openExternal called:", payload);
+            },
+            
+            requestDisplayMode: async (args) => {
+                console.log("requestDisplayMode called:", args);
+                return { mode: args.mode };
+            },
+            
+            requestModal: async (args) => {
+                console.log("requestModal called:", args);
+                return {};
+            },
+            
+            requestClose: async () => {
+                console.log("requestClose called");
+            }
+        };
+
+        // Update status
+        document.getElementById('status').textContent = 'Mock API initialized. Loading widget...';
+        
+        // Import and initialize the widget
+        try {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = 'http://localhost:4444/vendors-list-2d2b.js';
+            
+            script.onload = () => {
+                document.getElementById('status').className = 'status-success';
+                document.getElementById('status').textContent = '✓ Widget loaded successfully!';
+                console.log('Widget loaded successfully');
+            };
+            
+            script.onerror = (error) => {
+                document.getElementById('status').className = 'status-error';
+                document.getElementById('status').textContent = '✗ Failed to load widget. Make sure the asset server is running on port 4444.';
+                console.error('Failed to load widget:', error);
+            };
+            
+            document.head.appendChild(script);
+            
+            // Load CSS
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'http://localhost:4444/vendors-list-2d2b.css';
+            document.head.appendChild(link);
+            
+        } catch (error) {
+            document.getElementById('status').className = 'status-error';
+            document.getElementById('status').textContent = '✗ Error: ' + error.message;
+            console.error('Error loading widget:', error);
+        }
+    </script>
+</body>
+</html>
+
