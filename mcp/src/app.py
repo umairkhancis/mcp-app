@@ -8,18 +8,17 @@ from .config import config
 
 from .auth import AuthMiddleware
 
-from .careem_mcp_server import careem_mcp as mcp_app
+from .property_finder_mcp_server import property_finder_mcp as mcp_app
 
 from fastapi.responses import JSONResponse
 
 import json
 
-# Create lifespan to manage the Careem MCP session manager
+# Create lifespan to manage MCP session manager
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
     async with mcp_app.session_manager.run():
         yield
-
 app = FastAPI(lifespan=lifespan)
 
 # Add CORS middleware
