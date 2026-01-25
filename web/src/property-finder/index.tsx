@@ -617,7 +617,7 @@ function PropertyCard({
               e.stopPropagation();
               onContact(property);
             }}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg"
           >
             <Phone className="w-3.5 h-3.5" />
             Contact
@@ -835,7 +835,7 @@ function PropertyDetailView({
       >
         <button
           onClick={() => onContact(property)}
-          className="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02]"
+          className="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02]"
         >
           <Phone className="w-5 h-5" />
           Contact Agent
@@ -1077,19 +1077,21 @@ function PropertyFinderApp() {
               onClick={handleToggleFilters}
               className={`
                 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold
-                transition-all duration-200 whitespace-nowrap
+                transition-all duration-200 whitespace-nowrap border-2
                 ${activeFilterCount > 0
-                  ? "bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-md"
+                  ? isDark
+                    ? "border-red-500 bg-red-500/20 text-red-400"
+                    : "border-red-500 bg-red-50 text-red-600"
                   : isDark
-                    ? "bg-white/10 text-white border border-white/20 hover:bg-white/15"
-                    : "bg-white text-black/80 border border-black/10 shadow-sm hover:border-black/20"
+                    ? "border-transparent bg-white/10 text-white hover:bg-white/15"
+                    : "border-transparent bg-white text-black/80 shadow-sm hover:bg-gray-50"
                 }
               `}
             >
               <Filter className="w-4 h-4" />
               <span>Filters</span>
               {activeFilterCount > 0 && (
-                <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeFilterCount > 0 ? "bg-white/20" : ""}`}>
+                <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${isDark ? "bg-red-500/30" : "bg-red-100"}`}>
                   {activeFilterCount}
                 </span>
               )}
