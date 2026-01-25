@@ -8,7 +8,7 @@ from .config import config
 
 from .auth import AuthMiddleware
 
-from .property_finder_mcp_server import property_finder_mcp as mcp_app
+from .delivery_mcp_server import delivery_mcp as mcp_app
 
 from fastapi.responses import JSONResponse
 

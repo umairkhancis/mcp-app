@@ -30,6 +30,8 @@ const targets: string[] = [
   "careem-restaurants",
   "careem-quick",
   "property-finder",
+  "delivery-restaurants",
+  "delivery-quick",
 ];
 const builtNames: string[] = [];
 
