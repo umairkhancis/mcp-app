@@ -8,13 +8,13 @@ from .config import config
 
 from .auth import AuthMiddleware
 
-from .talabat_mcp_server import talabat_mcp as mcp_app
+from .careem_mcp_server import careem_mcp as mcp_app
 
 from fastapi.responses import JSONResponse
 
 import json
 
-# Create a combined lifespan to manage the MCP session manager
+# Create lifespan to manage the Careem MCP session manager
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
     async with mcp_app.session_manager.run():
