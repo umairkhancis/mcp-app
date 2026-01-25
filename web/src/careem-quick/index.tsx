@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "../index.css";
 import { useDisplayMode } from "../use-display-mode";
@@ -19,7 +19,6 @@ import {
   Sparkles,
   Trash2,
   Zap,
-  X,
 } from "lucide-react";
 
 // =============================================================================
